@@ -11,12 +11,14 @@ const BlogEdit = () => {
 	const [body , SetBody] = useState("");
 
     useEffect( ()=> {
-        Blogslist.doc(id).get().then((snapshot) => {
-            const data = snapshot.data();
-            SetTitle(data.Title);
-            SetBody(data.Body);
-        });
-    },[]);
+        if (id) {
+            Blogslist.doc(id).get().then((snapshot) => {
+                const data = snapshot.data();
+                SetTitle(data.Title);
+                SetBody(data.Body);
+            });
+        }   
+    },[id]);
         
     const submit =(e)=> {
         e.preventDefault();

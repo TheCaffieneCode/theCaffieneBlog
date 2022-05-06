@@ -7,20 +7,16 @@ const Blogslist = DB.collection('blogs');
 const BlogslistView = () => {
     const[blogs, Setblogs] = useState([]);
     useEffect(() =>{
-        const unsubscribe = Blogslist.limit(100).onSnapshot(querySnapshot => {
-            // Get all documents from collection - with IDs
+        const unsubscribe = Blogslist.onSnapshot(querySnapshot => {
             const data = querySnapshot.docs.map(doc => ({
               ...doc.data(),
               id: doc.id,
             }));
-            // Update state
             Setblogs(data);
           });
-  
-          // Detach listener
           return unsubscribe;
     }, []);
-
+        
     const DeleteBlog = (id)=> {
         Blogslist.doc(id).delete().then(() => {
             alert("Document successfully deleted!");
@@ -28,12 +24,20 @@ const BlogslistView = () => {
             console.error("Error removing document: ", error);
         });
     };
+
+    
     return(
-        <div>
+        <div> 
             {blogs.map(blog=> (
                 <div key={blog.id}>
                     <p>Title: {blog.Title}</p>
                     <p>Body: {blog.Body}</p>
+                    {blog.CoverImg 
+                        ?<>
+                            <img src={blog.CoverImg} alt="cover"/>
+                        </>
+                        :null
+                    }
                     <Link to={"/show/"+blog.id}>View</Link>
                     <Link to={"/EditBlog/"+blog.id}>Edit</Link>
                     <button 
@@ -41,6 +45,8 @@ const BlogslistView = () => {
                     >delete</button>
                 </div>
             ))}
+            
+
         </div>
     );
 };
