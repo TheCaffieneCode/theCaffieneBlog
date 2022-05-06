@@ -61,6 +61,10 @@ const BlogView = ()=> {
             });
         }
     };
+    const handlecommentDelete=(comment)=>{
+        Blogslist.doc(id).update({
+            comments: fb.firestore.FieldValue.arrayRemove(comment)
+    })}; 
     if (initializing) {
         return 'loading...';
     }
@@ -99,9 +103,17 @@ const BlogView = ()=> {
                     {commentList!==undefined && commentList.map((item)=>(
                         <div className="flex" key={item.commentId} >
                             <div>
-                                <img src={item.userImg} alt=""/>
+                                <img src={item.userImg} alt="user"/>
                             </div>
-                            <div></div>
+                            <div>
+                                <p>{item.comment}</p><br/>
+                                <p>{item.username}</p>
+                            </div>
+                            <div>
+                                {user.uid===blogs.author || user.uid===item.userid
+                                ?<button className="text-red-500" onClick={()=>handlecommentDelete(item)}>Delete</button>
+                                :null}
+                            </div>
                         </div>
                     )
                     )}
