@@ -19,7 +19,6 @@ function App() {
         <Route path="/Create/" element={<CreateBlog/>}/>
         <Route path="/show/:id" element={<BlogView/>}/>
         <Route path="/EditBlog/:id" element={<BlogEdit/>}/>
-
         <Route path="/Search/" element={<SearchPage/>}/>
       </Routes>
     </Router>
